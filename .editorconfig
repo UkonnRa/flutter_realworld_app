@@ -1,0 +1,13 @@
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+
+[*.{kt,swift,dart,arb,yaml}]
+indent_size = 2
+
+[*.{java,gradle}]
+indent_size = 4
