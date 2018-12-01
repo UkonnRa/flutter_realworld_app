@@ -18,6 +18,7 @@ class S implements WidgetsLocalizations {
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
+  String get mainPageTitle => "Main";
 }
 
 class en extends S {
@@ -30,6 +31,8 @@ class zh_CN extends S {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  @override
+  String get mainPageTitle => "主页";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
