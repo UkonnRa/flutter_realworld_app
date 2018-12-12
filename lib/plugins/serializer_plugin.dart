@@ -7,6 +7,8 @@ class DateTimeSerializerPlugin implements SerializerPlugin {
   }
 
   Object afterSerialize(Object object, FullType specifiedType) => object;
+
   Object beforeDeserialize(Object object, FullType specifiedType) => object;
+
   Object afterDeserialize(Object object, FullType specifiedType) => object;
 }

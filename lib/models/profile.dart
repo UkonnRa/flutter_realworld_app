@@ -8,15 +8,18 @@ abstract class Profile implements Built<Profile, ProfileBuilder> {
   static Serializer<Profile> get serializer => _$profileSerializer;
 
   String get username;
+
   @nullable
   String get bio;
+
   String get image;
+
   bool get following;
 
   factory Profile([updates(ProfileBuilder b)]) = _$Profile;
+
   Profile._();
 
   static Profile fromRequest(Map<String, dynamic> requestData) =>
-    serializers.deserializeWith(Profile.serializer, requestData["profile"]);
-
+      serializers.deserializeWith(Profile.serializer, requestData["profile"]);
 }

@@ -23,7 +23,7 @@ abstract class AuthUser implements Built<AuthUser, AuthUserBuilder> {
   factory AuthUser([updates(AuthUserBuilder b)]) = _$AuthUser;
 
   AuthUser._() {
-    v.isEmail(email);
+    assert(v.isEmail(email));
   }
 
   static AuthUser fromRequest(Map<String, dynamic> requestData) =>

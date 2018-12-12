@@ -18,7 +18,10 @@ dependencies:
   cupertino_icons: ^0.1.2
   dio: ^1.0.9
   shared_preferences: ^0.4.3
+  cached_network_image: ^0.5.1
   tuple: ^1.0.2
+  flushbar: ^1.2.0
+
 
 dev_dependencies:
   test: ^1.5.1
@@ -29,3 +32,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - res/assets/smiley-cyrus.jpg
+

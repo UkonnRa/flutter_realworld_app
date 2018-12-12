@@ -262,7 +262,9 @@ class TagListBuilder implements Builder<TagList, TagListBuilder> {
   _$TagList _$v;
 
   SetBuilder<String> _tags;
+
   SetBuilder<String> get tags => _$this._tags ??= new SetBuilder<String>();
+
   set tags(SetBuilder<String> tags) => _$this._tags = tags;
 
   TagListBuilder();
@@ -442,45 +444,65 @@ class ArticleBuilder implements Builder<Article, ArticleBuilder> {
   _$Article _$v;
 
   String _slug;
+
   String get slug => _$this._slug;
+
   set slug(String slug) => _$this._slug = slug;
 
   String _title;
+
   String get title => _$this._title;
+
   set title(String title) => _$this._title = title;
 
   String _description;
+
   String get description => _$this._description;
+
   set description(String description) => _$this._description = description;
 
   String _body;
+
   String get body => _$this._body;
+
   set body(String body) => _$this._body = body;
 
   SetBuilder<String> _tagList;
+
   SetBuilder<String> get tagList =>
       _$this._tagList ??= new SetBuilder<String>();
+
   set tagList(SetBuilder<String> tagList) => _$this._tagList = tagList;
 
   DateTime _createdAt;
+
   DateTime get createdAt => _$this._createdAt;
+
   set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
   DateTime _updatedAt;
+
   DateTime get updatedAt => _$this._updatedAt;
+
   set updatedAt(DateTime updatedAt) => _$this._updatedAt = updatedAt;
 
   bool _favorited;
+
   bool get favorited => _$this._favorited;
+
   set favorited(bool favorited) => _$this._favorited = favorited;
 
   int _favoritesCount;
+
   int get favoritesCount => _$this._favoritesCount;
+
   set favoritesCount(int favoritesCount) =>
       _$this._favoritesCount = favoritesCount;
 
   ProfileBuilder _author;
+
   ProfileBuilder get author => _$this._author ??= new ProfileBuilder();
+
   set author(ProfileBuilder author) => _$this._author = author;
 
   ArticleBuilder();
@@ -601,12 +623,16 @@ class ArticleListBuilder implements Builder<ArticleList, ArticleListBuilder> {
   _$ArticleList _$v;
 
   SetBuilder<Article> _articles;
+
   SetBuilder<Article> get articles =>
       _$this._articles ??= new SetBuilder<Article>();
+
   set articles(SetBuilder<Article> articles) => _$this._articles = articles;
 
   int _articlesCount;
+
   int get articlesCount => _$this._articlesCount;
+
   set articlesCount(int articlesCount) => _$this._articlesCount = articlesCount;
 
   ArticleListBuilder();

@@ -165,23 +165,33 @@ class AuthUserBuilder implements Builder<AuthUser, AuthUserBuilder> {
   _$AuthUser _$v;
 
   String _email;
+
   String get email => _$this._email;
+
   set email(String email) => _$this._email = email;
 
   String _token;
+
   String get token => _$this._token;
+
   set token(String token) => _$this._token = token;
 
   String _username;
+
   String get username => _$this._username;
+
   set username(String username) => _$this._username = username;
 
   String _bio;
+
   String get bio => _$this._bio;
+
   set bio(String bio) => _$this._bio = bio;
 
   String _image;
+
   String get image => _$this._image;
+
   set image(String image) => _$this._image = image;
 
   AuthUserBuilder();

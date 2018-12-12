@@ -10,20 +10,32 @@ import "package:test/test.dart";
 
 void main() {
   group("api", () {
-    const API_HEADER = 'https://conduit.productionready.io/api';
     group("articles", () {
       test("getAll", () async {
-        Api.getInstance(API_HEADER)
-            .flatMap((api) => api.articleListGet())
-            .listen(print, onError: print);
-        await Future.delayed(Duration(seconds: 5));
+        try {
+          final articles = await Api.getInstance()
+            .then((api) => api.articleListGet());
+          print(articles);
+        } catch (e) {
+          print(e);
+        }
       });
 
       test("get by tag", () async {
-        Api.getInstance(API_HEADER)
-        .flatMap((api) => api.articleListGet(tag: "AngularJS"))
-          .listen(print, onError: print);
-        await Future.delayed(Duration(seconds: 5));
+        try {
+          final articles = await Api.getInstance()
+            .then((api) => api.articleListGet(tag: "AngularJS"));
+          print(articles);
+        } catch (e) {
+          print(e);
+        }
+      });
+
+      test("get tags", () async {
+        final tags = await Api.getInstance()
+          .then((api) => api.tagGet());
+        print(tags);
+        print(tags.runtimeType);
       });
     });
 
@@ -34,25 +46,32 @@ void main() {
       SharedPreferences.setMockInitialValues({});
 
       test('register', () async {
-        Api.getInstance(API_HEADER)
-            .flatMap((api) => api.authRegister(username, email, password))
-            .listen(print, onError: print);
-        await Future.delayed(Duration(seconds: 5));
+        try {
+          final authUser = await Api.getInstance()
+            .then((api) => api.authRegister(username, email, password));
+          print("test ===> $authUser");
+        } catch (e) {
+          print("\ntest ===> $e");
+        }
       });
 
       test("login", () async {
-        final api = Api.getInstance('https://conduit.productionready.io/api');
-        api
-            .flatMap((api) => api.authLogin(email, password).map((data) {
-                  print("==== login ====");
-                  print(data);
-                  print("\n");
-                }).flatMap((_) {
-                  print("==== authCurrent ====");
-                  return api.authCurrent();
-                }))
-            .listen(print, onError: print);
-        await Future.delayed(Duration(seconds: 5));
+        try {
+          final api = Api.getInstance();
+          final authUser = await api
+            .then((api) =>
+            api.authLogin(email, password).then((data) {
+              print("==== login ====");
+              print(data);
+              print("\n");
+            }).then((_) {
+              print("==== authCurrent ====");
+              return api.authCurrent();
+            }));
+          print(authUser);
+        } catch (e) {
+          print(e);
+        }
       });
     });
   });

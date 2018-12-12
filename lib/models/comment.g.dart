@@ -209,23 +209,33 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   _$Comment _$v;
 
   int _id;
+
   int get id => _$this._id;
+
   set id(int id) => _$this._id = id;
 
   DateTime _createdAt;
+
   DateTime get createdAt => _$this._createdAt;
+
   set createdAt(DateTime createdAt) => _$this._createdAt = createdAt;
 
   DateTime _updatedAt;
+
   DateTime get updatedAt => _$this._updatedAt;
+
   set updatedAt(DateTime updatedAt) => _$this._updatedAt = updatedAt;
 
   String _body;
+
   String get body => _$this._body;
+
   set body(String body) => _$this._body = body;
 
   ProfileBuilder _author;
+
   ProfileBuilder get author => _$this._author ??= new ProfileBuilder();
+
   set author(ProfileBuilder author) => _$this._author = author;
 
   CommentBuilder();
@@ -325,8 +335,10 @@ class CommentListBuilder implements Builder<CommentList, CommentListBuilder> {
   _$CommentList _$v;
 
   SetBuilder<Comment> _comments;
+
   SetBuilder<Comment> get comments =>
       _$this._comments ??= new SetBuilder<Comment>();
+
   set comments(SetBuilder<Comment> comments) => _$this._comments = comments;
 
   CommentListBuilder();

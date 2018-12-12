@@ -20,6 +20,7 @@ part of 'serializers.dart';
 // ignore_for_file: test_types_in_equals
 
 Serializers _$serializers = (new Serializers().toBuilder()
+      ..add(AppState.serializer)
       ..add(Article.serializer)
       ..add(ArticleList.serializer)
       ..add(AuthUser.serializer)
