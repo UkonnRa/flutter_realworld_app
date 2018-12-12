@@ -4,7 +4,6 @@ import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/pages/login_page.dart';
 import 'package:flutter_realworld_app/pages/main_page.dart';
-import 'package:flutter_realworld_app/pages/profile_page.dart';
 import 'package:flutter_realworld_app/pages/register_page.dart';
 import 'package:flutter_realworld_app/pages/setting_page.dart';
 import 'package:flutter_redurx/flutter_redurx.dart';
@@ -22,8 +21,8 @@ class RealworldApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/main' : (context) => MainPage(),
-        '/login' : (context) => LoginPage(),
+        '/main': (context) => MainPage(),
+        '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
         '/setting': (context) => SettingPage()
       },

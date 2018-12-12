@@ -6,10 +6,10 @@ import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/profile.dart';
 import 'package:flutter_realworld_app/models/user.dart';
-import 'package:flutter_realworld_app/pages/main_page.dart';
 import 'package:flutter_realworld_app/pages/profile_page.dart';
 import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
+
 class AppDrawer extends StatelessWidget {
   final AuthUser _currentUser;
   final Profile _profile;
@@ -69,9 +69,10 @@ class AppDrawer extends StatelessWidget {
                     accountName: Text(_currentUser.username),
                     accountEmail: Text(_currentUser.email),
                     currentAccountPicture: CircleAvatar(
-                      backgroundImage: util.isNullEmpty(_currentUser.image, trim: true)
-                          ? AssetImage('res/assets/smiley-cyrus.jpg')
-                          : CachedNetworkImageProvider(_currentUser.image),
+                      backgroundImage:
+                          util.isNullEmpty(_currentUser.image, trim: true)
+                              ? AssetImage('res/assets/smiley-cyrus.jpg')
+                              : CachedNetworkImageProvider(_currentUser.image),
                     ),
                   ),
                 ),
@@ -94,13 +95,13 @@ class AppDrawer extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.power_settings_new),
                   onTap: () {
-                    Provider.dispatch<AppState>(context, Logout(successCallback: () {
-                      Navigator.of(context).popUntil(ModalRoute.withName("/main"));
+                    Provider.dispatch<AppState>(context,
+                        Logout(successCallback: () {
+                      Navigator.of(context)
+                          .popUntil(ModalRoute.withName("/main"));
                       Flushbar()
-                        ..title =
-                          S.of(context).logoutSuccessfulTitle
-                        ..message =
-                          S.of(context).logoutSuccessful
+                        ..title = S.of(context).logoutSuccessfulTitle
+                        ..message = S.of(context).logoutSuccessful
                         ..duration = Duration(seconds: 5)
                         ..show(context);
                     }));

@@ -19,8 +19,7 @@ class ProfilePage extends StatefulWidget {
   const ProfilePage(this._profile, {Key key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() =>
-      _ProfilePageState(this._profile);
+  State<StatefulWidget> createState() => _ProfilePageState(this._profile);
 }
 
 enum _TabState { MY, FAVORITED }
@@ -121,104 +120,110 @@ class _ProfilePageState extends State<ProfilePage>
 
   @override
   Widget build(BuildContext context) => Connect<AppState, AuthUser>(
-    where: (AuthUser oldState, AuthUser newState) => oldState != newState,
-    convert: (AppState state) => state.currentUser,
-    builder: (AuthUser currentUser) {
-      final isMe = currentUser.username == _profile.username;
-      return Scaffold(
-        body: NestedScrollView(
-          headerSliverBuilder: (BuildContext context,
-            bool innerBoxIsScrolled) =>
-          <Widget>[
-            SliverAppBar(
-              elevation: 0.0,
-              expandedHeight: 400.0,
-              pinned: true,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back), onPressed: () {
-                Navigator.of(context).pop();
-              }),
-              actions: isMe
-                ? <Widget>[
-                IconButton(
-                  icon: Icon(Icons.settings),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => SettingPage()));
-                  },
-                )
-              ]
-                : null,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(S.of(context).profilePageTitle),
-                background: Padding(
-                  padding: EdgeInsets.only(
-                    top: MediaQuery.of(context).padding.top + 50.0),
-                  child: Column(
-                    children: <Widget>[
-                      CircleAvatar(
-                        radius: 50.0,
-                        backgroundImage: util.isNullEmpty(_profile.image, trim: true) == null
-                          ? AssetImage('res/assets/smiley-cyrus.jpg')
-                          : CachedNetworkImageProvider(_profile.image),
-                      ),
-                      Stack(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              _profile.username,
-                              style: Theme.of(context)
-                                .textTheme
-                                .display1
-                                .merge(TextStyle(color: Colors.black)),
-                            ),
+      where: (AuthUser oldState, AuthUser newState) => oldState != newState,
+      convert: (AppState state) => state.currentUser,
+      builder: (AuthUser currentUser) {
+        final isMe = currentUser.username == _profile.username;
+        return Scaffold(
+          body: NestedScrollView(
+            headerSliverBuilder: (BuildContext context,
+                    bool innerBoxIsScrolled) =>
+                <Widget>[
+                  SliverAppBar(
+                    elevation: 0.0,
+                    expandedHeight: 400.0,
+                    pinned: true,
+                    leading: IconButton(
+                        icon: Icon(Icons.arrow_back),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        }),
+                    actions: isMe
+                        ? <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.settings),
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        SettingPage()));
+                              },
+                            )
+                          ]
+                        : null,
+                    flexibleSpace: FlexibleSpaceBar(
+                        title: Text(S.of(context).profilePageTitle),
+                        background: Padding(
+                          padding: EdgeInsets.only(
+                              top: MediaQuery.of(context).padding.top + 50.0),
+                          child: Column(
+                            children: <Widget>[
+                              CircleAvatar(
+                                radius: 50.0,
+                                backgroundImage: util.isNullEmpty(
+                                            _profile.image,
+                                            trim: true) ==
+                                        null
+                                    ? AssetImage('res/assets/smiley-cyrus.jpg')
+                                    : CachedNetworkImageProvider(
+                                        _profile.image),
+                              ),
+                              Stack(
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      _profile.username,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .display1
+                                          .merge(
+                                              TextStyle(color: Colors.black)),
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: EdgeInsets.only(right: 8.0),
+                                      alignment: Alignment.centerRight,
+                                      child: _followButton(isMe, currentUser))
+                                ].where((Object o) => o != null).toList(),
+                              ),
+                            ],
                           ),
-                          Container(
-                            padding: EdgeInsets.only(right: 8.0),
-                            alignment: Alignment.centerRight,
-                            child: _followButton(isMe, currentUser))
-                        ].where((Object o) => o != null).toList(),
-                      ),
-                    ],
+                        )),
                   ),
-                )),
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: _SliverAppBarDelegate(
-                TabBar(
-                  controller: _tabController,
-                  labelColor: Theme.of(context).accentColor,
-                  unselectedLabelColor: Colors.grey,
-                  tabs: _tabs.map((t) => t.item2).toList(),
-                ),
+                  SliverPersistentHeader(
+                    pinned: true,
+                    delegate: _SliverAppBarDelegate(
+                      TabBar(
+                        controller: _tabController,
+                        labelColor: Theme.of(context).accentColor,
+                        unselectedLabelColor: Colors.grey,
+                        tabs: _tabs.map((t) => t.item2).toList(),
+                      ),
+                    ),
+                  )
+                ],
+            body: Center(
+              child: TabBarView(
+                controller: _tabController,
+                children: _TabState.values.map((_TabState s) {
+                  if (_cached[s].item2.isEmpty) {
+                    return Center(
+                      child: Text("Empty now"),
+                    );
+                  } else {
+                    return ListView(
+                      children: _cached[s]
+                          .item2
+                          .map((Article a) => ArticleItem(a))
+                          .toList(),
+                    );
+                  }
+                }).toList(),
               ),
-            )
-          ],
-          body: Center(
-            child: TabBarView(
-              controller: _tabController,
-              children: _TabState.values.map((_TabState s) {
-                if (_cached[s].item2.isEmpty) {
-                  return Center(
-                    child: Text("Empty now"),
-                  );
-                } else {
-                  return ListView(
-                    children: _cached[s]
-                      .item2
-                      .map((Article a) => ArticleItem(a))
-                      .toList(),
-                  );
-                }
-              }).toList(),
             ),
           ),
-        ),
-      );
-    }
-    );
-
+        );
+      });
 }
 
 class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {

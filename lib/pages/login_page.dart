@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.emailAddress,
       autofocus: false,
       decoration: InputDecoration(
-          hintText: 'Email',
+          hintText: S.of(context).email,
           hintStyle: TextStyle(color: Colors.black45),
           contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
           border: OutlineInputBorder(
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         autofocus: false,
         obscureText: true,
         decoration: InputDecoration(
-            hintText: 'Password',
+            hintText: S.of(context).password,
             hintStyle: TextStyle(color: Colors.black45),
             contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
             border: OutlineInputBorder(
@@ -88,7 +88,8 @@ class _LoginPageState extends State<LoginPage> {
               context,
               AuthLogin(_email, _password, successCallback: () {
                 util.finishLoading(context);
-                Navigator.pushNamedAndRemoveUntil(context, '/main', (route) => route == null);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, '/main', (route) => route == null);
                 Flushbar()
                   ..title = S.of(context).loginSuccessfulTitle
                   ..message = S.of(context).loginSuccessful

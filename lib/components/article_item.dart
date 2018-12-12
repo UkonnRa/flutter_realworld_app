@@ -15,24 +15,20 @@ class ArticleItem extends StatefulWidget {
 }
 
 class _ArticleItemState extends State<ArticleItem> {
-  bool _favorited;
-  int _favoritesCount;
-  final Article _article;
+  Article _article;
   var dateFormatter = DateFormat('yyyy-mm-dd HH:MM:ss');
 
-  _ArticleItemState(this._article) {
-    this._favorited = this._article.favorited;
-    this._favoritesCount = this._article.favoritesCount;
-  }
+  _ArticleItemState(this._article);
 
   _header(BuildContext context) => Row(
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.only(right: 4.0),
             child: CircleAvatar(
-              backgroundImage: util.isNullEmpty(_article.author.image, trim: true)
-                ? AssetImage('res/assets/smiley-cyrus.jpg')
-                : CachedNetworkImageProvider(_article.author.image),
+              backgroundImage:
+                  util.isNullEmpty(_article.author.image, trim: true)
+                      ? AssetImage('res/assets/smiley-cyrus.jpg')
+                      : CachedNetworkImageProvider(_article.author.image),
             ),
           ),
           Expanded(
@@ -51,27 +47,25 @@ class _ArticleItemState extends State<ArticleItem> {
             onPressed: () async {
               try {
                 final api = await Api.getInstance();
-                if (_favorited) {
-                  await api.articleUnfavorite(_article.slug);
-                  setState(() {
-                    _favorited = !_favorited;
-                    _favoritesCount--;
-                  });
+                Article article;
+                if (_article.favorited) {
+                  article = await api.articleUnfavorite(_article.slug);
                 } else {
-                  await api.articleFavorite(_article.slug);
-                  setState(() {
-                    _favorited = !_favorited;
-                    _favoritesCount++;
-                  });
+                  article = await api.articleFavorite(_article.slug);
                 }
+                setState(() {
+                  this._article = article;
+                });
               } catch (e) {
                 util.errorHandle(e, context);
               }
             },
             child: Row(
               children: <Widget>[
-                _favorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
-                Text(_favoritesCount.toString())
+                _article.favorited
+                    ? Icon(Icons.favorite)
+                    : Icon(Icons.favorite_border),
+                Text(_article.favoritesCount.toString())
               ],
             ),
           ),

@@ -39,6 +39,8 @@
   "settingChangeSuccessful" : "你的信息已经更新成功，将跳转到主页面",
   "loginSuccessfulTitle": "哈！登录成功！",
   "loginSuccessful" : "登陆成功，将跳转到主页面",
+  "logoutSuccessfulTitle": "登出成功！",
+  "logoutSuccessful" : "登出成功，将跳转到主界面",
   "registerSuccessfulTitle": "吼！注册成功！",
   "registerSuccessful": "注册成功，将跳转到登录界面",
   "submit": "提交！"

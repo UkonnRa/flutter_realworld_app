@@ -93,8 +93,10 @@ class _SettingPageState extends State<SettingPage> {
                           }
                         },
                         onSaved: (value) {
-                          if (util.isNullEmpty(value, trim: true)) _avatarUrl = null;
-                          else _avatarUrl = value;
+                          if (util.isNullEmpty(value, trim: true))
+                            _avatarUrl = null;
+                          else
+                            _avatarUrl = value;
                         },
                       ),
                       Padding(

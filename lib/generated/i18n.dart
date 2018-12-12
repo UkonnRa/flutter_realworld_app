@@ -134,6 +134,8 @@ class zh_CN extends S {
   @override
   String get avatarUrl => "头像 URL";
   @override
+  String get logoutSuccessful => "登出成功，将跳转到主界面";
+  @override
   String get mainPageTitle => "主页";
   @override
   String get bottomNavYours => "你的";
@@ -141,6 +143,8 @@ class zh_CN extends S {
   String get newPassword => "新密码";
   @override
   String get biography => "自我介绍";
+  @override
+  String get logoutSuccessfulTitle => "登出成功！";
   @override
   String get follow => "关注";
   @override
