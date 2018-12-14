@@ -28,6 +28,9 @@ class S implements WidgetsLocalizations {
   String get conduitSlogan => "A place to share your knowledge.";
   String get createANewUser => "Create a new user";
   String get delete => "Delete";
+  String get deleteArticle => "You are going to delete an article, which is a unrecoverable operation. Continue?";
+  String get deleteArticleSuccessfulTitle => "Delete an Article Successful";
+  String get deleteArticleTitle => "Delete an Article";
   String get description => "Description";
   String get edit => "Edit";
   String get email => "Email";
@@ -59,6 +62,7 @@ class S implements WidgetsLocalizations {
   String get profilePageTitle => "Profile";
   String get registerSuccessful => "Register successful, you will be navigated to Login Page";
   String get registerSuccessfulTitle => "Register Successful!";
+  String get reject => "Reject";
   String get repassword => "Re-Password";
   String get search => "Search";
   String get searchByTagInfo => "Please choose a Tag you are interested in:";
@@ -71,6 +75,8 @@ class S implements WidgetsLocalizations {
   String get tagListTooltip => "Using English-style's comma to separate the tags. the blanks at the head and tail of each tag will be removed";
   String get title => "Title";
   String get unfollow => "Unfollow";
+  String get updateArticleSuccessful => "Update article successful, you will ne navigated to this updated article";
+  String get updateArticleSuccessfulTitle => "Update Article Successful!";
   String get username => "Username";
   String get validatorNotEmail => "Please input a correct E-Mail";
   String get validatorNotEmpty => "This field should not be empty";
@@ -78,6 +84,7 @@ class S implements WidgetsLocalizations {
   String get validatorNotUrl => "Please input a correct URL";
   String get validatorTooShortPassword => "Password should be at least 6 characters";
   String get yourFeed => "Your Feed";
+  String deleteArticleSuccessful(String name) => "You delete the article '$name' successful! You will be navigate to the Main Page";
   String errorUnknown(String err) => "Unknown Error: $err";
   String searchResultPageTitle(String tag) => "Search Result -- $tag";
 }
@@ -101,6 +108,8 @@ class zh_CN extends S {
   @override
   String get newArticleSuccessful => "创建成功，即将跳转至那篇文章";
   @override
+  String get updateArticleSuccessful => "更新文章成功，你将跳转至被更新的那篇文章";
+  @override
   String get validatorNotEmail => "请输入有效的邮箱地址";
   @override
   String get logout => "退出登录";
@@ -114,6 +123,8 @@ class zh_CN extends S {
   String get error403 => "被禁止的请求：你没有足够的权限进行操作";
   @override
   String get error401 => "未授权的请求：请登录后重试";
+  @override
+  String get settingsChangeSuccessful => "你的信息已经更新成功，将跳转到主页面";
   @override
   String get validatorNotUrl => "请输入有效的 URL";
   @override
@@ -143,6 +154,8 @@ class zh_CN extends S {
   @override
   String get myArticles => "我的文章";
   @override
+  String get deleteArticleTitle => "删除一篇文章";
+  @override
   String get notEmpty => "不要为空";
   @override
   String get unfollow => "取消关注";
@@ -158,6 +171,8 @@ class zh_CN extends S {
   String get validatorNotEmpty => "此栏不可为空";
   @override
   String get description => "简介";
+  @override
+  String get settingsChangeSuccessfulTitle => "耶！更新成功！";
   @override
   String get appTitle => "仿真 Flutter";
   @override
@@ -177,6 +192,8 @@ class zh_CN extends S {
   @override
   String get search => "搜索";
   @override
+  String get reject => "拒绝";
+  @override
   String get validatorTooShortPassword => "密码应大于等于6个字符";
   @override
   String get profilePageTitle => "我的";
@@ -186,6 +203,8 @@ class zh_CN extends S {
   String get email => "邮箱地址";
   @override
   String get emptyNow => "当前数据为空";
+  @override
+  String get deleteArticleSuccessfulTitle => "删除文章成功";
   @override
   String get emailAndPasswordShouldNotBeEmpty => "邮箱地址和密码均不能为空！";
   @override
@@ -197,9 +216,13 @@ class zh_CN extends S {
   @override
   String get follow => "关注";
   @override
+  String get deleteArticle => "你将删除一篇文章，这个操作不可恢复，是否继续？";
+  @override
   String get tagList => "标签";
   @override
   String get newArticleSuccessfulTitle => "创建新文章";
+  @override
+  String get updateArticleSuccessfulTitle => "更新文章";
   @override
   String get repassword => "请再次输入密码";
   @override
@@ -210,6 +233,8 @@ class zh_CN extends S {
   String get username => "用户名";
   @override
   String searchResultPageTitle(String tag) => "搜索结果 -- $tag";
+  @override
+  String deleteArticleSuccessful(String name) => "你已经成功删除文章 \"$name\"！你将跳转至主界面";
   @override
   String errorUnknown(String err) => "未知错误：$err";
 }

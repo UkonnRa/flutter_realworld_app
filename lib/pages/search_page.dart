@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/api.dart';
 import 'package:flutter_realworld_app/components/chipper.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
+import 'package:flutter_realworld_app/util.dart' as util;
 
 class SearchPage extends StatelessWidget {
   @override
@@ -15,14 +16,14 @@ class SearchPage extends StatelessWidget {
           title: Text(S.of(context).search),
         ),
         body: FutureBuilder(
-          future: Api.getInstance().then((api) => api.tagGet()),
+          future: Api.getInstance()
+              .then((api) => api.tagGet())
+              .catchError((e) => util.errorHandle(e, context)),
           builder:
               (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
             if (snapshot.hasData) {
               final tags = snapshot.data;
               return Center(
-//                padding: const EdgeInsets.all(8.0),
-//                alignment: Alignment.center,
                 child: Wrap(
                   children: <Widget>[
                     Padding(

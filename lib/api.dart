@@ -128,12 +128,14 @@ class Api {
         }
       }).then(Article.fromRequest);
 
-  Future<Article> articleUpdate(Article article) =>
-      _put('/articles/${article.slug}', data: {
+  Future<Article> articleUpdate(String slug, String title, String description,
+          String body, List<String> tagList) =>
+      _put('/articles/$slug', data: {
         "article": {
-          "title": article.title,
-          "description": article.description,
-          "body": article.body,
+          "title": title,
+          "description": description,
+          "body": body,
+          "tagList": tagList
         }
       }).then(Article.fromRequest);
 

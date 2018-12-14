@@ -13,9 +13,7 @@ import 'package:flutter_redurx/flutter_redurx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  var appState = AppState((b) => b
-    ..currentUser = null
-    ..currentProfile = null);
+  var appState = AppState((b) => b..currentUser = null);
 
   try {
     final api = await Api.getInstance();

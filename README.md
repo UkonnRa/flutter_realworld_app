@@ -16,6 +16,7 @@ For more information on how to this works with other frontends/backends, head ov
 # How it works
 
 * Using [Flutter-ReduRx](https://github.com/leocavalcante/Flutter-ReduRx/) for managing State
+* Using [built_value.dart](https://github.com/google/built_value.dart) to serialize/deserialize Models
 * Using [flutter_i18n](https://github.com/long1eu/flutter_i18n) for i18n
   * English and **Chinese** Locale are supported!
 * Infinite ListView inspired by [MARCIN SZAŁEK](https://marcinszalek.pl/flutter/infinite-dynamic-listview/). Good job, dude!
@@ -29,3 +30,5 @@ To build this app yourself:
 * `flutter packages get` to download the Dart packages
 * `flutter build apk` then `flutter install` to install the app in **release mode** to Android device
 * Enjoy!
+
+**If you find any bug while using, PLEASE give me an issue. Any advice is expected also**

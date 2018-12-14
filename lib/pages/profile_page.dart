@@ -15,7 +15,9 @@ import 'package:tuple/tuple.dart';
 class ProfilePage extends StatefulWidget {
   final Profile _profile;
 
-  const ProfilePage(this._profile, {Key key}) : super(key: key);
+  ProfilePage(this._profile, {Key key}) : super(key: key) {
+    assert(this._profile != null);
+  }
 
   @override
   State<StatefulWidget> createState() => _ProfilePageState(this._profile);
@@ -45,16 +47,12 @@ class _ProfilePageState extends State<ProfilePage>
             ))
       ];
 
-  @override
-  void initState() {
-    super.initState();
-    Api.getInstance()
-        .then((api) => api.profileGet(_profile.username))
-        .then((p) => setState(() => _following = p.following));
-  }
-
   _ProfilePageState(this._profile) {
     this._tabController = TabController(length: 2, vsync: this);
+    Api.getInstance()
+        .then((api) => api.profileGet(_profile.username))
+        .then((p) => setState(() => _following = p.following))
+        .catchError((e) => util.errorHandle(e, context));
   }
 
   MaterialButton _followButton(bool isMe, AuthUser currentUser) {
@@ -66,11 +64,16 @@ class _ProfilePageState extends State<ProfilePage>
         onPressed: currentUser == null
             ? null
             : () async {
-                final api = await Api.getInstance();
-                final newProfile = await api.profileUnfollow(_profile.username);
-                setState(() {
-                  _following = newProfile.following;
-                });
+                try {
+                  final api = await Api.getInstance();
+                  final newProfile =
+                      await api.profileUnfollow(_profile.username);
+                  setState(() {
+                    _following = newProfile.following;
+                  });
+                } catch (e) {
+                  util.errorHandle(e, context);
+                }
               },
       );
     return FlatButton(
@@ -79,11 +82,15 @@ class _ProfilePageState extends State<ProfilePage>
       onPressed: currentUser == null
           ? null
           : () async {
-              final api = await Api.getInstance();
-              final newProfile = await api.profileFollow(_profile.username);
-              setState(() {
-                _following = newProfile.following;
-              });
+              try {
+                final api = await Api.getInstance();
+                final newProfile = await api.profileFollow(_profile.username);
+                setState(() {
+                  _following = newProfile.following;
+                });
+              } catch (e) {
+                util.errorHandle(e, context);
+              }
             },
     );
   }
@@ -125,6 +132,8 @@ class _ProfilePageState extends State<ProfilePage>
                 : Text(
                     _profile.bio,
                     style: Theme.of(context).textTheme.caption,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                   ),
             _followButton(isMe, state.currentUser),
           ].where((o) => o != null).toList(),
@@ -140,18 +149,22 @@ class _ProfilePageState extends State<ProfilePage>
                 (_TabState s) => ScrollableLoadingList<Article>(
                       itemConstructor: (Article a) => ArticleItem(a),
                       loadingDataFunction: ({int offset}) async {
-                        final api = await Api.getInstance();
                         List<Article> articles = [];
-                        if (s == _TabState.FAVORITED) {
-                          articles = (await api.articleListGet(
-                                  favorited: _profile.username))
-                              .articles
-                              .toList();
-                        } else if (s == _TabState.MY) {
-                          articles = (await api.articleListGet(
-                                  author: _profile.username))
-                              .articles
-                              .toList();
+                        try {
+                          final api = await Api.getInstance();
+                          if (s == _TabState.FAVORITED) {
+                            articles = (await api.articleListGet(
+                                    favorited: _profile.username))
+                                .articles
+                                .toList();
+                          } else if (s == _TabState.MY) {
+                            articles = (await api.articleListGet(
+                                    author: _profile.username))
+                                .articles
+                                .toList();
+                          }
+                        } catch (e) {
+                          util.errorHandle(e, context);
                         }
                         return articles;
                       },
@@ -175,6 +188,15 @@ class _ProfilePageState extends State<ProfilePage>
                   onPressed: () {
                     Navigator.pop(context);
                   }),
+              actions: <Widget>[
+                isMe
+                    ? IconButton(
+                        icon: Icon(Icons.settings),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/settings'),
+                      )
+                    : null
+              ].where((o) => o != null).toList(),
               title: Text(S.of(context).profilePageTitle),
             ),
             body: Column(
@@ -185,7 +207,6 @@ class _ProfilePageState extends State<ProfilePage>
               ],
             ),
           );
-          ;
         },
       );
 }

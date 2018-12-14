@@ -47,6 +47,8 @@
   "registerSuccessful": "Register successful, you will be navigated to Login Page",
   "newArticleSuccessfulTitle": "New Article Successful!",
   "newArticleSuccessful": "Creation successful, you will ne navigated to this new article",
+  "updateArticleSuccessfulTitle": "Update Article Successful!",
+  "updateArticleSuccessful": "Update article successful, you will ne navigated to this updated article",
   "submit": "Submit!",
   "title": "Title",
   "description": "Description",
@@ -60,5 +62,10 @@
   "emptyNow": "Empty Now...",
   "search": "Search",
   "searchByTagInfo": "Please choose a Tag you are interested in:",
+  "reject": "Reject",
+  "deleteArticleTitle": "Delete an Article",
+  "deleteArticle": "You are going to delete an article, which is a unrecoverable operation. Continue?",
+  "deleteArticleSuccessfulTitle": "Delete an Article Successful",
+  "deleteArticleSuccessful": "You delete the article '$name' successful! You will be navigate to the Main Page",
   "aboutInfo": "Author: CasterKKK\nGithub: https://github.com/CasterKKK\nThis project: https://github.com/CasterKKK/flutter_realworld_app\nFeel free to fork or make PR, and thanks for staring this project!"
 }

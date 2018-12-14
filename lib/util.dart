@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:intl/intl.dart';
 
-final dateFormatter = DateFormat('yyyy-mm-dd HH:MM:ss');
+final dateFormatter = DateFormat('yyyy-MM-dd HH:mm:ss');
 
 void errorHandle(Error e, BuildContext context) {
   if (e is DioError) {
@@ -29,10 +29,7 @@ void errorHandle(Error e, BuildContext context) {
         message = S.of(context).errorUnknown(e.toString());
         break;
     }
-    Flushbar()
-      ..message = message
-      ..duration = Duration(seconds: 5)
-      ..show(context);
+    flushbar(context, S.of(context).error, message);
   } else {
     showDialog(
       context: context,
@@ -66,9 +63,10 @@ void finishLoading(BuildContext context) => Navigator.of(context).pop();
 bool isNullEmpty(String s, {bool trim = false}) =>
     s == null || s == "" || (trim ? isNullEmpty(s.trim()) : false);
 
-void showInfoDialog(BuildContext context, {String title, String content}) =>
+void showInfoDialog(BuildContext outerContext,
+        {String title, String content}) =>
     showDialog(
-      context: context,
+      context: outerContext,
       barrierDismissible: false,
       builder: (BuildContext context) => AlertDialog(
             title: title == null ? null : Text(title),
@@ -83,6 +81,36 @@ void showInfoDialog(BuildContext context, {String title, String content}) =>
             ],
           ),
     );
+
+typedef void DialogCallback();
+
+void showWarningDialog(BuildContext outerContext,
+        {String title,
+        String content,
+        DialogCallback okCallback,
+        DialogCallback rejectCallback}) =>
+    showDialog(
+        context: outerContext,
+        barrierDismissible: false,
+        builder: (BuildContext context) => AlertDialog(
+              title: title == null ? null : Text(title),
+              content: content == null ? null : Text(content),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text(S.of(context).ok),
+                  onPressed: () {
+                    okCallback?.call();
+                  },
+                ),
+                FlatButton(
+                  textColor: Colors.black45,
+                  child: Text(S.of(context).reject),
+                  onPressed: () {
+                    rejectCallback?.call();
+                  },
+                ),
+              ],
+            ));
 
 void showAbout(BuildContext context) => showDialog(
       context: context,
@@ -107,3 +135,10 @@ void showAbout(BuildContext context) => showDialog(
             ),
           ),
     );
+
+Flushbar flushbar(BuildContext context, String title, String message) =>
+    Flushbar()
+      ..title = title
+      ..message = message
+      ..duration = Duration(seconds: 3)
+      ..show(context);

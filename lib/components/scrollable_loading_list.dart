@@ -30,6 +30,7 @@ class _ScrollableLoadingListState<T> extends State<ScrollableLoadingList<T>> {
 
   List<T> _data = [];
   bool _isPerformingRequest = false;
+  bool _isStartRequest = true;
   ScrollController _scrollController = new ScrollController();
 
   _ScrollableLoadingListState(this._loadingDataFunction, this._itemConstructor);
@@ -43,7 +44,7 @@ class _ScrollableLoadingListState<T> extends State<ScrollableLoadingList<T>> {
         _getMoreData();
       }
     });
-    _getMoreData();
+    _getMoreData().then((_) => setState(() => _isStartRequest = false));
   }
 
   @override
@@ -89,7 +90,7 @@ class _ScrollableLoadingListState<T> extends State<ScrollableLoadingList<T>> {
 
   @override
   Widget build(BuildContext context) {
-    if (_isPerformingRequest) {
+    if (_isStartRequest) {
       return Center(child: CircularProgressIndicator());
     }
     return _data.isEmpty

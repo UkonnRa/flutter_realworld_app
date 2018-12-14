@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/api.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
@@ -121,11 +120,8 @@ class _RegisterPageState extends State<RegisterPage> {
             await api.authRegister(_username, _email, _password);
             util.finishLoading(context);
             Navigator.pop(context);
-            Flushbar()
-              ..title = S.of(context).registerSuccessfulTitle
-              ..message = S.of(context).registerSuccessful
-              ..duration = Duration(seconds: 5)
-              ..show(context);
+            util.flushbar(context, S.of(context).registerSuccessfulTitle,
+                S.of(context).registerSuccessful);
           } catch (e) {
             util.finishLoading(context);
             util.errorHandle(e, context);

@@ -37,12 +37,6 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
         ..add(serializers.serialize(object.currentUser,
             specifiedType: const FullType(AuthUser)));
     }
-    if (object.currentProfile != null) {
-      result
-        ..add('currentProfile')
-        ..add(serializers.serialize(object.currentProfile,
-            specifiedType: const FullType(Profile)));
-    }
 
     return result;
   }
@@ -62,10 +56,6 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
           result.currentUser.replace(serializers.deserialize(value,
               specifiedType: const FullType(AuthUser)) as AuthUser);
           break;
-        case 'currentProfile':
-          result.currentProfile.replace(serializers.deserialize(value,
-              specifiedType: const FullType(Profile)) as Profile);
-          break;
       }
     }
 
@@ -76,13 +66,11 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
 class _$AppState extends AppState {
   @override
   final AuthUser currentUser;
-  @override
-  final Profile currentProfile;
 
   factory _$AppState([void updates(AppStateBuilder b)]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.currentUser, this.currentProfile}) : super._();
+  _$AppState._({this.currentUser}) : super._();
 
   @override
   AppState rebuild(void updates(AppStateBuilder b)) =>
@@ -94,21 +82,18 @@ class _$AppState extends AppState {
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is AppState &&
-        currentUser == other.currentUser &&
-        currentProfile == other.currentProfile;
+    return other is AppState && currentUser == other.currentUser;
   }
 
   @override
   int get hashCode {
-    return $jf($jc($jc(0, currentUser.hashCode), currentProfile.hashCode));
+    return $jf($jc(0, currentUser.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper('AppState')
-          ..add('currentUser', currentUser)
-          ..add('currentProfile', currentProfile))
+          ..add('currentUser', currentUser))
         .toString();
   }
 }
@@ -124,20 +109,11 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   set currentUser(AuthUserBuilder currentUser) =>
       _$this._currentUser = currentUser;
 
-  ProfileBuilder _currentProfile;
-
-  ProfileBuilder get currentProfile =>
-      _$this._currentProfile ??= new ProfileBuilder();
-
-  set currentProfile(ProfileBuilder currentProfile) =>
-      _$this._currentProfile = currentProfile;
-
   AppStateBuilder();
 
   AppStateBuilder get _$this {
     if (_$v != null) {
       _currentUser = _$v.currentUser?.toBuilder();
-      _currentProfile = _$v.currentProfile?.toBuilder();
       _$v = null;
     }
     return this;
@@ -160,17 +136,12 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
   _$AppState build() {
     _$AppState _$result;
     try {
-      _$result = _$v ??
-          new _$AppState._(
-              currentUser: _currentUser?.build(),
-              currentProfile: _currentProfile?.build());
+      _$result = _$v ?? new _$AppState._(currentUser: _currentUser?.build());
     } catch (_) {
       String _$failedField;
       try {
         _$failedField = 'currentUser';
         _currentUser?.build();
-        _$failedField = 'currentProfile';
-        _currentProfile?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

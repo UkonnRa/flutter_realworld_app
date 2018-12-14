@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/actions.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
@@ -93,11 +92,8 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context) =>
                             MainPage(MainPageType.GLOBAL_FEED)),
                     ModalRoute.withName('/'));
-                Flushbar()
-                  ..title = S.of(context).loginSuccessfulTitle
-                  ..message = S.of(context).loginSuccessful
-                  ..duration = Duration(seconds: 5)
-                  ..show(context);
+                util.flushbar(context, S.of(context).loginSuccessfulTitle,
+                    S.of(context).loginSuccessful);
               }, errorHandler: (err) {
                 util.finishLoading(context);
                 util.errorHandle(err, context);

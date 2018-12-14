@@ -1,17 +1,15 @@
 import 'package:flutter_realworld_app/api.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
-import 'package:flutter_realworld_app/models/profile.dart';
 import 'package:flutter_realworld_app/models/user.dart';
 import 'package:flutter_redurx/flutter_redurx.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tuple/tuple.dart';
 
 /// DO NOT CHANGE [AppState] to [AuthUser] AGAIN!!!
 /// ReduRx cannot deal with Store(null) correctly!!!
 
 typedef void CallbackFunction();
 typedef void ErrorHandlerFunction(Error err);
-typedef Future<Tuple2<AuthUser, Profile>> ReduceBodyFunction();
+typedef Future<AuthUser> ReduceBodyFunction();
 
 abstract class AbstractAsyncAction extends AsyncAction<AppState> {
   final CallbackFunction _successCallback;
@@ -22,11 +20,10 @@ abstract class AbstractAsyncAction extends AsyncAction<AppState> {
 
   Future<Computation<AppState>> _reduce(ReduceBodyFunction func) async {
     try {
-      final tuple = await func.call();
+      final user = await func.call();
       _successCallback?.call();
-      return (AppState _) => _.rebuild((b) => b
-        ..currentUser = tuple.item1?.toBuilder()
-        ..currentProfile = tuple.item2?.toBuilder());
+      return (AppState _) =>
+          _.rebuild((b) => b..currentUser = user?.toBuilder());
     } catch (e) {
       _errorHandler?.call(e);
       return Future.value((AppState _) => _);
@@ -46,8 +43,7 @@ class AuthLogin extends AbstractAsyncAction {
         () => _api.then(
               (api) async {
                 final user = await api.authLogin(_email, _password);
-                final profile = await api.profileGet(user.username);
-                return Tuple2(user, profile);
+                return user;
               },
             ),
       );
@@ -63,8 +59,7 @@ class AuthCurrent extends AbstractAsyncAction {
         () => _api.then(
               (api) async {
                 final user = await api.authCurrent();
-                final profile = await api.profileGet(user.username);
-                return Tuple2(user, profile);
+                return user;
               },
             ),
       );
@@ -98,8 +93,7 @@ class AuthUpdate extends AbstractAsyncAction {
                     image: _image,
                     username: _username,
                     password: _password);
-                final profile = await api.profileGet(user.username);
-                return Tuple2(user, profile);
+                return user;
               },
             ),
       );
@@ -113,6 +107,6 @@ class Logout extends AbstractAsyncAction {
   Future<Computation<AppState>> reduce(AppState state) =>
       _reduce(() => SharedPreferences.getInstance().then((pref) {
             pref.remove("jwt");
-            return Tuple2(null, null);
+            return null;
           }));
 }

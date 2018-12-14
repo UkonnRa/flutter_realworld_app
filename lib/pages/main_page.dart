@@ -7,6 +7,7 @@ import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/article.dart';
 import 'package:flutter_realworld_app/models/user.dart';
+import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
 
 enum MainPageType { YOUR_FEED, GLOBAL_FEED }
@@ -54,14 +55,20 @@ class _MainPageState extends State<MainPage> {
             );
 
   Future<List<Article>> _loadingDataFunction({int offset}) async {
-    final api = await Api.getInstance();
-    List<Article> articles = [];
-    if (_type == MainPageType.YOUR_FEED) {
-      articles = (await api.articleListFeed(offset: offset)).articles.toList();
-    } else if (_type == MainPageType.GLOBAL_FEED) {
-      articles = (await api.articleListGet(offset: offset)).articles.toList();
+    try {
+      final api = await Api.getInstance();
+      List<Article> articles = [];
+      if (_type == MainPageType.YOUR_FEED) {
+        articles =
+            (await api.articleListFeed(offset: offset)).articles.toList();
+      } else if (_type == MainPageType.GLOBAL_FEED) {
+        articles = (await api.articleListGet(offset: offset)).articles.toList();
+      }
+      return articles;
+    } catch (e) {
+      util.errorHandle(e, context);
+      return [];
     }
-    return articles;
   }
 
   @override
@@ -87,7 +94,7 @@ class _MainPageState extends State<MainPage> {
                   )
                 ],
               ),
-              drawer: AppDrawer(state.currentUser, state.currentProfile),
+              drawer: AppDrawer(state.currentUser),
               body: ScrollableLoadingList<Article>(
                 loadingDataFunction: _loadingDataFunction,
                 itemConstructor: (Article a) => ArticleItem(a),

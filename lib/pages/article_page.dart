@@ -8,6 +8,8 @@ import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/article.dart';
 import 'package:flutter_realworld_app/models/profile.dart';
 import 'package:flutter_realworld_app/models/user.dart';
+import 'package:flutter_realworld_app/pages/main_page.dart';
+import 'package:flutter_realworld_app/pages/new_article_page.dart';
 import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
 
@@ -86,10 +88,39 @@ class _ArticlePageState extends State<ArticlePage> {
             onSelected: (MoreOption op) {
               switch (op) {
                 case MoreOption.EDIT:
-                  // todo navigate to edit page
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NewArticlePage(
+                                article: _article,
+                              )));
                   break;
                 case MoreOption.DELETE:
-                  // todo delete this page
+                  util.showWarningDialog(context,
+                      title: S.of(context).deleteArticleTitle,
+                      content: S.of(context).deleteArticle,
+                      okCallback: () {
+                        Api.getInstance()
+                            .then((api) => api.articleDelete(_article.slug))
+                            .catchError((e) {
+                          Navigator.pop(context);
+                          util.errorHandle(e, context);
+                        }).then((_) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      MainPage(MainPageType.YOUR_FEED)),
+                              ModalRoute.withName('/'));
+                          util.flushbar(
+                              context,
+                              S.of(context).deleteArticleSuccessfulTitle,
+                              S
+                                  .of(context)
+                                  .deleteArticleSuccessful(_article.title));
+                        });
+                      },
+                      rejectCallback: () => Navigator.pop(context));
                   break;
                 default:
                   util.errorHandle(

@@ -1,4 +1,3 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/actions.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
@@ -52,14 +51,10 @@ class _SettingsPageState extends State<SettingsPage> {
                                         builder: (context) =>
                                             MainPage(MainPageType.GLOBAL_FEED)),
                                     ModalRoute.withName('/'));
-                                Flushbar()
-                                  ..title = S
-                                      .of(context)
-                                      .settingsChangeSuccessfulTitle
-                                  ..message =
-                                      S.of(context).settingsChangeSuccessful
-                                  ..duration = Duration(seconds: 5)
-                                  ..show(context);
+                                util.flushbar(
+                                    context,
+                                    S.of(context).settingsChangeSuccessfulTitle,
+                                    S.of(context).settingsChangeSuccessful);
                               },
                               errorHandler: (err) {
                                 util.finishLoading(context);
