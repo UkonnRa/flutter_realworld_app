@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/actions.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
-import 'package:flutter_realworld_app/pages/register_page.dart';
+import 'package:flutter_realworld_app/pages/main_page.dart';
 import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
 
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                         Text(S.of(context).emailAndPasswordShouldNotBeEmpty),
                     actions: <Widget>[
                       FlatButton(
-                        child: Text(S.of(context).okSlang),
+                        child: Text(S.of(context).ok),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
@@ -88,8 +88,11 @@ class _LoginPageState extends State<LoginPage> {
               context,
               AuthLogin(_email, _password, successCallback: () {
                 util.finishLoading(context);
-                Navigator.pushNamedAndRemoveUntil(
-                    context, '/main', (route) => route == null);
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            MainPage(MainPageType.GLOBAL_FEED)),
+                    ModalRoute.withName('/'));
                 Flushbar()
                   ..title = S.of(context).loginSuccessfulTitle
                   ..message = S.of(context).loginSuccessful
@@ -108,8 +111,7 @@ class _LoginPageState extends State<LoginPage> {
         S.of(context).createANewUser,
       ),
       onPressed: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => RegisterPage()));
+        Navigator.of(context).pushNamed("/register");
       },
     );
 

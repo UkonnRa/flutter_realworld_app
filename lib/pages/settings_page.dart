@@ -4,16 +4,17 @@ import 'package:flutter_realworld_app/actions.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/user.dart';
+import 'package:flutter_realworld_app/pages/main_page.dart';
 import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
 import 'package:validators/validators.dart' as v;
 
-class SettingPage extends StatefulWidget {
+class SettingsPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _SettingPageState();
+  State<StatefulWidget> createState() => _SettingsPageState();
 }
 
-class _SettingPageState extends State<SettingPage> {
+class _SettingsPageState extends State<SettingsPage> {
   final _formKey = GlobalKey<FormState>();
 
   String _avatarUrl;
@@ -46,13 +47,17 @@ class _SettingPageState extends State<SettingPage> {
                           AuthUpdate(
                               successCallback: () {
                                 util.finishLoading(context);
-                                Navigator.of(context).pop();
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MainPage(MainPageType.GLOBAL_FEED)),
+                                    ModalRoute.withName('/'));
                                 Flushbar()
-                                  ..title =
-                                      S.of(context).settingChangeSuccessfulTitle
+                                  ..title = S
+                                      .of(context)
+                                      .settingsChangeSuccessfulTitle
                                   ..message =
-                                      S.of(context).settingChangeSuccessful
+                                      S.of(context).settingsChangeSuccessful
                                   ..duration = Duration(seconds: 5)
                                   ..show(context);
                               },

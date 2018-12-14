@@ -2,6 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
+import 'package:intl/intl.dart';
+
+final dateFormatter = DateFormat('yyyy-mm-dd HH:MM:ss');
 
 void errorHandle(Error e, BuildContext context) {
   if (e is DioError) {
@@ -51,9 +54,11 @@ void startLoading(BuildContext context) =>
       transitionDuration: Duration(seconds: 1),
       pageBuilder: (BuildContext buildContext, Animation<double> animation,
               Animation<double> secondaryAnimation) =>
-          Center(
-            child: CircularProgressIndicator(),
-          ),
+          WillPopScope(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+              onWillPop: () async => false),
     );
 
 void finishLoading(BuildContext context) => Navigator.of(context).pop();
@@ -63,17 +68,42 @@ bool isNullEmpty(String s, {bool trim = false}) =>
 
 void showInfoDialog(BuildContext context, {String title, String content}) =>
     showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) => AlertDialog(
-              title: title == null ? null : Text(title),
-              content: content == null ? null : Text(content),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text(S.of(context).okSlang),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            ));
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+            title: title == null ? null : Text(title),
+            content: content == null ? null : Text(content),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(S.of(context).ok),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+    );
+
+void showAbout(BuildContext context) => showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+            title: Text(S.of(context).aboutApp),
+            actions: <Widget>[
+              FlatButton(
+                child: Text(S.of(context).ok),
+                onPressed: () => Navigator.pop(context),
+              )
+            ],
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    S.of(context).aboutInfo,
+                    style: Theme.of(context).textTheme.body2,
+                  ),
+                ],
+              ),
+            ),
+          ),
+    );

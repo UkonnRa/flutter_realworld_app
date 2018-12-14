@@ -6,6 +6,7 @@ import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/profile.dart';
 import 'package:flutter_realworld_app/models/user.dart';
+import 'package:flutter_realworld_app/pages/main_page.dart';
 import 'package:flutter_realworld_app/pages/profile_page.dart';
 import 'package:flutter_realworld_app/util.dart' as util;
 import 'package:flutter_redurx/flutter_redurx.dart';
@@ -47,13 +48,22 @@ class AppDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(Icons.public),
-                  onTap: () {},
-                  title: Text(S.of(context).bottomNavGlobal),
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MainPage(MainPageType.GLOBAL_FEED)),
+                        ModalRoute.withName('/'));
+                  },
+                  title: Text(S.of(context).globalFeed),
                 ),
                 Divider(),
                 ListTile(
-                  title: Text(S.of(context).about),
-                  onTap: () {},
+                  leading: Icon(Icons.info),
+                  title: Text(S.of(context).aboutApp),
+                  onTap: () {
+                    util.showAbout(context);
+                  },
                 ),
               ],
             )
@@ -78,18 +88,32 @@ class AppDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: Icon(Icons.person),
-                  onTap: () {},
-                  title: Text(S.of(context).bottomNavYours),
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MainPage(MainPageType.YOUR_FEED)),
+                        ModalRoute.withName('/'));
+                  },
+                  title: Text(S.of(context).yourFeed),
                 ),
                 ListTile(
-                  leading: Icon(Icons.group),
-                  onTap: () {},
-                  title: Text(S.of(context).bottomNavGlobal),
+                  leading: Icon(Icons.public),
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                MainPage(MainPageType.GLOBAL_FEED)),
+                        ModalRoute.withName('/'));
+                  },
+                  title: Text(S.of(context).globalFeed),
                 ),
                 Divider(),
                 ListTile(
                   leading: Icon(Icons.settings),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/settings');
+                  },
                   title: Text(S.of(context).settings),
                 ),
                 ListTile(
@@ -97,8 +121,11 @@ class AppDrawer extends StatelessWidget {
                   onTap: () {
                     Provider.dispatch<AppState>(context,
                         Logout(successCallback: () {
-                      Navigator.of(context)
-                          .popUntil(ModalRoute.withName("/main"));
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  MainPage(MainPageType.GLOBAL_FEED)),
+                          ModalRoute.withName('/'));
                       Flushbar()
                         ..title = S.of(context).logoutSuccessfulTitle
                         ..message = S.of(context).logoutSuccessful
@@ -111,8 +138,10 @@ class AppDrawer extends StatelessWidget {
                 Divider(),
                 ListTile(
                   leading: Icon(Icons.info),
-                  onTap: () {},
-                  title: Text(S.of(context).about),
+                  onTap: () {
+                    util.showAbout(context);
+                  },
+                  title: Text(S.of(context).aboutApp),
                 ),
               ],
             ),

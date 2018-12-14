@@ -18,22 +18,29 @@ class S implements WidgetsLocalizations {
 
   @override
   TextDirection get textDirection => TextDirection.ltr;
-  String get about => "About";
+  String get aboutApp => "About APP";
+  String get aboutInfo => "Author: CasterKKK\nGithub: https://github.com/CasterKKK\nThis project: https://github.com/CasterKKK/flutter_realworld_app\nFeel free to fork or make PR, and thanks for staring this project!";
   String get appTitle => "Flutter Realworld App";
+  String get article => "Article";
+  String get articleBody => "Body";
   String get avatarUrl => "Avatar URL";
   String get biography => "Biography";
-  String get bottomNavGlobal => "Global";
-  String get bottomNavYours => "Yours";
   String get conduitSlogan => "A place to share your knowledge.";
   String get createANewUser => "Create a new user";
+  String get delete => "Delete";
+  String get description => "Description";
+  String get edit => "Edit";
   String get email => "Email";
   String get emailAndPasswordShouldNotBeEmpty => "Email and password should not be empty!";
+  String get emptyNow => "Empty Now...";
   String get error => "Error";
   String get error401 => "Unauthorized requests: please login and try again";
   String get error403 => "Forbidden requests: you don't have permissions to perform the action";
   String get error404 => "Not Found requests: the resource cannot be found, please wait and try again";
   String get favoritedArticles => "Favorited Articles";
   String get follow => "Follow";
+  String get generalBizarreError => "Something weird happened, please try again";
+  String get globalFeed => "Global Feed";
   String get login => "Login";
   String get loginSuccessful => "Login successful, you will be navigated to Main Page now";
   String get loginSuccessfulTitle => "Login Successful!";
@@ -42,19 +49,27 @@ class S implements WidgetsLocalizations {
   String get logoutSuccessfulTitle => "Logout Successful!";
   String get mainPageTitle => "Main";
   String get myArticles => "My Articles";
+  String get newArticlePageTitle => "New Article";
+  String get newArticleSuccessful => "Creation successful, you will ne navigated to this new article";
+  String get newArticleSuccessfulTitle => "New Article Successful!";
   String get newPassword => "New Password";
   String get notEmpty => "Not Empty";
-  String get okSlang => "Alright...";
+  String get ok => "OK";
   String get password => "Password";
   String get profilePageTitle => "Profile";
-  String get registerSuccessful => "Register Successful, you will be navigated to Login Page";
+  String get registerSuccessful => "Register successful, you will be navigated to Login Page";
   String get registerSuccessfulTitle => "Register Successful!";
   String get repassword => "Re-Password";
+  String get search => "Search";
+  String get searchByTagInfo => "Please choose a Tag you are interested in:";
   String get seeProfile => "See Profile";
-  String get settingChangeSuccessful => "Setting is changed successfully, you will be navigated to Main Page now";
-  String get settingChangeSuccessfulTitle => "Wry! Changing Successful!";
   String get settings => "Settings";
+  String get settingsChangeSuccessful => "Settings are changed successfully, you will be navigated to Main Page now";
+  String get settingsChangeSuccessfulTitle => "Wry! Changing Successful!";
   String get submit => "Submit!";
+  String get tagList => "Tag List";
+  String get tagListTooltip => "Using English-style's comma to separate the tags. the blanks at the head and tail of each tag will be removed";
+  String get title => "Title";
   String get unfollow => "Unfollow";
   String get username => "Username";
   String get validatorNotEmail => "Please input a correct E-Mail";
@@ -62,7 +77,9 @@ class S implements WidgetsLocalizations {
   String get validatorNotSamePassword => "The re-entered password should be the same as the original one";
   String get validatorNotUrl => "Please input a correct URL";
   String get validatorTooShortPassword => "Password should be at least 6 characters";
+  String get yourFeed => "Your Feed";
   String errorUnknown(String err) => "Unknown Error: $err";
+  String searchResultPageTitle(String tag) => "Search Result -- $tag";
 }
 
 class en extends S {
@@ -76,45 +93,21 @@ class zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get favoritedArticles => "我喜爱的文章";
-  @override
   String get createANewUser => "创建新用户";
   @override
-  String get submit => "提交！";
+  String get articleBody => "正文";
   @override
   String get error404 => "未找到资源的请求：请等待一段时间后重试";
   @override
-  String get validatorNotEmpty => "此栏不可为空";
-  @override
-  String get about => "关于";
-  @override
-  String get okSlang => "好吧";
-  @override
-  String get appTitle => "仿真 Flutter";
-  @override
-  String get login => "登录";
-  @override
-  String get error => "错误";
-  @override
-  String get seeProfile => "我的主页";
-  @override
-  String get loginSuccessful => "登陆成功，将跳转到主页面";
+  String get newArticleSuccessful => "创建成功，即将跳转至那篇文章";
   @override
   String get validatorNotEmail => "请输入有效的邮箱地址";
-  @override
-  String get settingChangeSuccessful => "你的信息已经更新成功，将跳转到主页面";
   @override
   String get logout => "退出登录";
   @override
   String get password => "密码";
   @override
-  String get settingChangeSuccessfulTitle => "耶！更新成功！";
-  @override
   String get validatorNotSamePassword => "重新输入的密码应该与上面的密码保持一致";
-  @override
-  String get validatorTooShortPassword => "密码应大于等于6个字符";
-  @override
-  String get profilePageTitle => "我的";
   @override
   String get conduitSlogan => "属于你的知识宝库。";
   @override
@@ -124,23 +117,79 @@ class zh_CN extends S {
   @override
   String get validatorNotUrl => "请输入有效的 URL";
   @override
-  String get email => "邮箱地址";
-  @override
   String get loginSuccessfulTitle => "哈！登录成功！";
+  @override
+  String get yourFeed => "你所关注的文章";
   @override
   String get settings => "设置";
   @override
-  String get emailAndPasswordShouldNotBeEmpty => "邮箱地址和密码均不能为空！";
-  @override
   String get avatarUrl => "头像 URL";
   @override
-  String get logoutSuccessful => "登出成功，将跳转到主界面";
+  String get edit => "编辑";
   @override
   String get mainPageTitle => "主页";
   @override
-  String get bottomNavYours => "你的";
+  String get tagListTooltip => "使用英文逗号分隔标签，每个标签的首尾空格将被去除";
+  @override
+  String get globalFeed => "全部文章";
   @override
   String get newPassword => "新密码";
+  @override
+  String get newArticlePageTitle => "新文章";
+  @override
+  String get registerSuccessful => "注册成功，将跳转到登录界面";
+  @override
+  String get article => "文章";
+  @override
+  String get myArticles => "我的文章";
+  @override
+  String get notEmpty => "不要为空";
+  @override
+  String get unfollow => "取消关注";
+  @override
+  String get favoritedArticles => "我喜爱的文章";
+  @override
+  String get generalBizarreError => "奇怪的事情发生了，请重试";
+  @override
+  String get submit => "提交！";
+  @override
+  String get searchByTagInfo => "请选择一个你感兴趣的标签：";
+  @override
+  String get validatorNotEmpty => "此栏不可为空";
+  @override
+  String get description => "简介";
+  @override
+  String get appTitle => "仿真 Flutter";
+  @override
+  String get login => "登录";
+  @override
+  String get error => "错误";
+  @override
+  String get title => "标题";
+  @override
+  String get seeProfile => "我的主页";
+  @override
+  String get delete => "删除";
+  @override
+  String get loginSuccessful => "登陆成功，将跳转到主页面";
+  @override
+  String get aboutApp => "关于 APP";
+  @override
+  String get search => "搜索";
+  @override
+  String get validatorTooShortPassword => "密码应大于等于6个字符";
+  @override
+  String get profilePageTitle => "我的";
+  @override
+  String get ok => "好";
+  @override
+  String get email => "邮箱地址";
+  @override
+  String get emptyNow => "当前数据为空";
+  @override
+  String get emailAndPasswordShouldNotBeEmpty => "邮箱地址和密码均不能为空！";
+  @override
+  String get logoutSuccessful => "登出成功，将跳转到主界面";
   @override
   String get biography => "自我介绍";
   @override
@@ -148,21 +197,19 @@ class zh_CN extends S {
   @override
   String get follow => "关注";
   @override
-  String get registerSuccessful => "注册成功，将跳转到登录界面";
+  String get tagList => "标签";
   @override
-  String get myArticles => "我的文章";
+  String get newArticleSuccessfulTitle => "创建新文章";
   @override
   String get repassword => "请再次输入密码";
   @override
-  String get bottomNavGlobal => "全部";
-  @override
-  String get notEmpty => "不要为空";
-  @override
-  String get unfollow => "取消关注";
+  String get aboutInfo => "作者：CasterKKK\nGithub：https://github.com/CasterKKK\n该项目地址：https://github.com/CasterKKK/flutter_realworld_app\n请随意 fork 或提 PR，如果能点个星星是极好的！";
   @override
   String get registerSuccessfulTitle => "吼！注册成功！";
   @override
   String get username => "用户名";
+  @override
+  String searchResultPageTitle(String tag) => "搜索结果 -- $tag";
   @override
   String errorUnknown(String err) => "未知错误：$err";
 }

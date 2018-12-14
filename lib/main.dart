@@ -1,19 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_realworld_app/api.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/pages/login_page.dart';
 import 'package:flutter_realworld_app/pages/main_page.dart';
+import 'package:flutter_realworld_app/pages/new_article_page.dart';
 import 'package:flutter_realworld_app/pages/register_page.dart';
-import 'package:flutter_realworld_app/pages/setting_page.dart';
+import 'package:flutter_realworld_app/pages/search_page.dart';
+import 'package:flutter_realworld_app/pages/settings_page.dart';
 import 'package:flutter_redurx/flutter_redurx.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  final appState = AppState((b) => b
+void main() async {
+  var appState = AppState((b) => b
     ..currentUser = null
     ..currentProfile = null);
 
-  runApp(Provider(store: Store<AppState>(appState), child: RealworldApp()));
+  try {
+    final api = await Api.getInstance();
+    final currentUser = await api.authCurrent();
+    appState =
+        appState.rebuild((b) => b..currentUser = currentUser.toBuilder());
+  } catch (e) {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('jwt');
+  } finally {
+    runApp(Provider(store: Store<AppState>(appState), child: RealworldApp()));
+  }
 }
 
 class RealworldApp extends StatelessWidget {
@@ -21,15 +35,16 @@ class RealworldApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        '/main': (context) => MainPage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/setting': (context) => SettingPage()
+        '/settings': (context) => SettingsPage(),
+        '/newArticle': (context) => NewArticlePage(),
+        '/search': (context) => SearchPage()
       },
-      title: "Realworld Flutter App",
+      onGenerateTitle: (context) => S.of(context).appTitle,
       theme: ThemeData(
           primaryColor: Colors.lightGreen, accentColor: Colors.orange),
-      home: MainPage(),
+      home: MainPage(MainPageType.GLOBAL_FEED),
       localizationsDelegates: [
         S.delegate,
         GlobalMaterialLocalizations.delegate,

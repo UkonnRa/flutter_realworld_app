@@ -2,15 +2,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter_realworld_app/api.dart';
 import 'package:flutter_realworld_app/components/app_drawer.dart';
 import 'package:flutter_realworld_app/components/article_item.dart';
+import 'package:flutter_realworld_app/components/scrollable_loading_list.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
 import 'package:flutter_realworld_app/models/article.dart';
 import 'package:flutter_realworld_app/models/user.dart';
-import 'package:flutter_realworld_app/pages/login_page.dart';
 import 'package:flutter_redurx/flutter_redurx.dart';
 
-class MainPage extends StatelessWidget {
+enum MainPageType { YOUR_FEED, GLOBAL_FEED }
+
+class MainPage extends StatefulWidget {
+  final MainPageType _type;
+
+  MainPage(this._type, {Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MainPageState(this._type);
+}
+
+class _MainPageState extends State<MainPage> {
+  final MainPageType _type;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  _MainPageState(this._type);
+
+  String _getSubtitle(BuildContext context) {
+    switch (_type) {
+      case MainPageType.GLOBAL_FEED:
+        return S.of(context).globalFeed;
+      case MainPageType.YOUR_FEED:
+        return S.of(context).yourFeed;
+      default:
+        return null;
+    }
+  }
+
+  FloatingActionButton _fab(AuthUser currentUser, BuildContext context) =>
+      currentUser == null
+          ? FloatingActionButton(
+              shape: StadiumBorder(),
+              onPressed: () {
+                Navigator.of(context).pushNamed('/login');
+              },
+              child: Text(S.of(context).login),
+            )
+          : FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed('/newArticle');
+              },
+              child: Icon(Icons.add),
+            );
+
+  Future<List<Article>> _loadingDataFunction({int offset}) async {
+    final api = await Api.getInstance();
+    List<Article> articles = [];
+    if (_type == MainPageType.YOUR_FEED) {
+      articles = (await api.articleListFeed(offset: offset)).articles.toList();
+    } else if (_type == MainPageType.GLOBAL_FEED) {
+      articles = (await api.articleListGet(offset: offset)).articles.toList();
+    }
+    return articles;
+  }
 
   @override
   Widget build(BuildContext context) => Connect<AppState, AppState>(
@@ -24,54 +76,25 @@ class MainPage extends StatelessWidget {
                     onPressed: () {
                       _scaffoldKey.currentState.openDrawer();
                     }),
-                title: Text(S.of(context).mainPageTitle),
+                title: Text(
+                    "${S.of(context).mainPageTitle} -- ${_getSubtitle(context)}"),
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.search),
                     onPressed: () {
-                      print("search");
+                      Navigator.pushNamed(context, '/search');
                     },
                   )
                 ],
               ),
               drawer: AppDrawer(state.currentUser, state.currentProfile),
-              body: FutureBuilder<ArticleList>(
-                  future: Api.getInstance().then((api) => api.articleListGet()),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<ArticleList> snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      case ConnectionState.none:
-                        return Center(
-                          child: Text("None found"),
-                        );
-                      default:
-                        return ListView(
-                            children: snapshot.data.articles
-                                .map((a) => ArticleItem(a))
-                                .toList());
-                    }
-                  }),
+              body: ScrollableLoadingList<Article>(
+                loadingDataFunction: _loadingDataFunction,
+                itemConstructor: (Article a) => ArticleItem(a),
+              ),
               floatingActionButton: _fab(state.currentUser, context),
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.endFloat,
             ),
       );
-
-  FloatingActionButton _fab(AuthUser user, BuildContext context) => user == null
-      ? FloatingActionButton(
-          shape: StadiumBorder(),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => LoginPage()));
-          },
-          child: Text(S.of(context).login),
-        )
-      : FloatingActionButton(
-          onPressed: () {},
-          child: Icon(Icons.add),
-        );
 }

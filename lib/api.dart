@@ -117,12 +117,14 @@ class Api {
   Future<Article> articleGet(String slug) =>
       _get('/articles/$slug').then(Article.fromRequest);
 
-  Future<Article> articleCreate(Article article) => _post('/articles', data: {
+  Future<Article> articleCreate(String title, String description, String body,
+          List<String> tagList) =>
+      _post('/articles', data: {
         "article": {
-          "title": article.title,
-          "description": article.description,
-          "body": article.body,
-          "tagList": article.tagList
+          "title": title,
+          "description": description,
+          "body": body,
+          "tagList": tagList
         }
       }).then(Article.fromRequest);
 
