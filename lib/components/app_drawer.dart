@@ -156,7 +156,7 @@ class AppDrawer extends StatelessWidget {
             .then((api) => api.profileGet(_currentUser.username))
             .catchError((err) => util.errorHandle(err, context)),
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
             if (_currentUser == null)
               return _notLoginDrawer(context);
             else {
