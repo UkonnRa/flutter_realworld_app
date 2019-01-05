@@ -150,7 +150,13 @@ class AppDrawer extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) 
+    if (_currentUser == null)
+      return FutureBuilder<Profile>(
+        builder: (context, snapshot) {
+          print("future builder1a...");
+          return _notLoginDrawer(context);
+          });
     return FutureBuilder<Profile>(
         future: Api.getInstance()
             .then((api) => api.profileGet(_currentUser.username))
