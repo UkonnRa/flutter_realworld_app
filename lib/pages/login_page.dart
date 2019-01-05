@@ -112,6 +112,17 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        centerTitle: true,
+        leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        title: Text(S.of(context).login),
+      ),
       backgroundColor: Theme.of(context).primaryColor,
       body: Center(
         child: Form(
