@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_realworld_app/actions.dart';
 import 'package:flutter_realworld_app/generated/i18n.dart';
 import 'package:flutter_realworld_app/models/app_state.dart';
@@ -17,6 +18,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final _emailFocus = FocusNode();
+    final _pwFocus = FocusNode();
+    
     final logo = Container(
       alignment: Alignment.center,
       child: Text(
@@ -27,7 +31,9 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final email = TextFormField(
+      focusNode: _emailFocus,
       keyboardType: TextInputType.emailAddress,
+      textInputAction: TextInputAction.next,
       autofocus: false,
       decoration: InputDecoration(
           hintText: S.of(context).email,
@@ -41,10 +47,14 @@ class _LoginPageState extends State<LoginPage> {
       onSaved: (value) {
         _email = value;
       },
+      onFieldSubmitted: (term) {
+        _fieldFocusChange(context, _emailFocus, _pwFocus);
+      },
     );
 
     final password = TextFormField(
-        autofocus: false,
+        focusNode: _pwFocus, 
+        autofocus: true,
         obscureText: true,
         decoration: InputDecoration(
             hintText: S.of(context).password,
@@ -57,6 +67,10 @@ class _LoginPageState extends State<LoginPage> {
             fillColor: Colors.white),
         onSaved: (value) {
           _password = value;
+        },
+        onFieldSubmitted: (value) {
+          _pwFocus.unfocus();
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
         });
 
     final loginButton = RaisedButton(
