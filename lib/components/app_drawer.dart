@@ -150,7 +150,7 @@ class AppDrawer extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) 
+  Widget build(BuildContext context) {
     if (_currentUser == null)
       return FutureBuilder<Profile>(
         builder: (context, snapshot) {
