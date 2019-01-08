@@ -166,4 +166,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+   _fieldFocusChange(
+      BuildContext context, FocusNode currentFocus, FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);
+  }
 }
