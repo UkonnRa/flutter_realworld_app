@@ -32,3 +32,9 @@ To build this app yourself:
 * Enjoy!
 
 **If you find any bug while using, PLEASE give me an issue. Any advice is expected also**
+
+# Preview (screenshots)
+
+<img src="https://user-images.githubusercontent.com/6679425/50804099-8ec4f400-12ba-11e9-9869-1f28f3e72627.png" width="250"> <img src="https://user-images.githubusercontent.com/6679425/50804101-8ec4f400-12ba-11e9-8a53-d21fd6d8b730.png" width="250"> <img src="https://user-images.githubusercontent.com/6679425/50804102-8ec4f400-12ba-11e9-82ce-aff7c32fb479.png" width="250">
+
+
